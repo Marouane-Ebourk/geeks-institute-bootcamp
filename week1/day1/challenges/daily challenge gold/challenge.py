@@ -3,25 +3,14 @@ from datetime import datetime
 # Ask the user for their birthdate (specify the format, for example: DD/MM/YYYY).
 birthdate = input("Give me your birthdate under this format DD/MM/YYYY :\n")
 try:
-    birth_day = int(birthdate.split("/")[0])
-    birth_month = int(birthdate.split("/")[1])
     birth_year = int(birthdate.split("/")[2])
 except Exception as e:
     print("Wrong format !")
     exit()
 
-# calculate the age exactly
+# calculate the age
 current_date = datetime.today()
-years_diff = current_date.year - birth_year
-month_diff = current_date.month - birth_month
-day_diff = current_date.day - birth_day
-
-if current_date.month < birth_month or (
-    current_date.month == birth_month and birth_day < birthdate.day
-):
-    age = years_diff - 1
-else:
-    age = years_diff
+age = current_date.year - birth_year
 
 # calculate the number of candles
 candles_count = age % 10
