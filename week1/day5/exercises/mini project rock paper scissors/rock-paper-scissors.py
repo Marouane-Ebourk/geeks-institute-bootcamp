@@ -9,15 +9,13 @@ def get_user_menu_choice():
     return choice
 
 def print_results(results):
-    if len(results) == 0:
-        print("No games were played!")
-    else:
-        print("\nHere are the results of the games:")
-        for result in results:
-            print(result.upper())
+    print("\nHere are the results of the games:")
+    for key, value in results.items():
+        print(f"{key}: {value}")
+    
 
 def main():
-    results = []
+    results = {"win": 0, "lose": 0, "draw": 0}
     while True:
         menu_choice = get_user_menu_choice()
         if menu_choice == "x":
@@ -27,7 +25,7 @@ def main():
         elif menu_choice == "g":
             game = Game()
             result = game.play()
-            results.append(result)
+            results[result] += 1
 
 main()
 
