@@ -62,7 +62,7 @@ where first_name like '%a';
 
 -- Fetch the students whose second to last letter of their first_names are a (Example: Leah).
 select first_name, last_name from students
-where first_name like 'a_%';
+where first_name like '%a_';
 
 -- Fetch the students whose id’s are equal to 1 AND 3 .
 select first_name, last_name from students
