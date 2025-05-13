@@ -24,7 +24,7 @@ order by last_name desc;
 select * from customer;
 
 -- Write a query to display the names (first_name, last_name) using an alias named “full_name”.
-select (first_name, last_name) as full_name from customer;
+select concat(first_name, ' ', last_name) as full_name from customer;
 
 -- Lets get all the dates that accounts were created.
 -- Write a query to select all the create_date from the “customer” table (there should be no duplicates).
