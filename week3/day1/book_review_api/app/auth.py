@@ -1,10 +1,10 @@
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, APIRouter
 from passlib.context import CryptContext
 from jose import jwt
 # from datetime import datetime, timedelta
 from schemas import UserCreate, UserOut
 from database import get_connection
-from fastapi import APIRouter
+from psycopg2.extras import RealDictCursor
 import os
 
 router = APIRouter()
@@ -53,12 +53,17 @@ def signup(user: UserCreate):
 
 @router.post("/login")
 def login(user: UserCreate):
-    with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("select id, username, password, is_admin from users where username=%s", (user.username,))
-            db_user = cur.fetchone()
-            if not db_user or not verify_password(user.password, db_user[2]):
-                raise HTTPException(status_code=401, detail="Invalid credentials")
+    try:
+        print("hello world")
+        with get_connection() as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute("select id, username, password, is_admin from users where username=%s", (user.username,))
+                db_user = cur.fetchone()
+                if not db_user or not verify_password(user.password, db_user["password"]):
+                    raise HTTPException(status_code=401, detail="Invalid credentials")
 
-            token = create_access_token({"sub": db_user[1], "user_id": db_user[0], "is_admin": db_user[3]})
-            return {"access_token": token, "token_type": "bearer"}
+                token = create_access_token({"sub": db_user["username"], "user_id": db_user["id"], "is_admin": db_user["is_admin"]})
+                return {"access_token": token, "token_type": "bearer"}
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail=f"Error loggin in: {e}")

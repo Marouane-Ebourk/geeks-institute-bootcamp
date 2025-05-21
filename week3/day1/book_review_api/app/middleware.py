@@ -22,7 +22,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         method = request.method
 
         for public_path, public_method in PUBLIC_PATHS:
-            if path == public_path and (method is None or method == public_method):
+            if path == public_path and (public_method is None or method == public_method):
                 return await call_next(request)
 
         token = request.headers.get("Authorization")

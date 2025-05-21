@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Depends
 from schemas import BookBase, BookOut, BookCreate
 from database import get_connection
 from typing import List, Optional  # Type hints
 from psycopg2.extras import RealDictCursor  # Returns results as dictionaries instead of tuples
+from dependencies import require_admin
 
 
 router = APIRouter()
@@ -22,14 +23,9 @@ def get_books():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving books: {str(e)}")
 
-
-
 # create a book
 @router.post("/books", response_model=BookOut)
 def create_book(book: BookCreate, request: Request):
-    print("\n\n\n")
-    print(book)
-    print("\n\n\n")
     try:
         user = request.state.user
         owner_id = user["user_id"]
@@ -51,6 +47,21 @@ def create_book(book: BookCreate, request: Request):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error creating book: {str(e)}")
 
+# update a book (owner/admin)
 
+@router.put("/books/{book_id}")
+def update_book(book_id: int, user=Depends(require_admin)):
+    try:
 
-    return {"id": 1, "owner": 3, "title": "title1", "description": "desc1"}
+        with get_connection() as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # TODO
+                cur.execute(
+                    """
+                    select id
+                    """
+                )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error while updating the book")
+
