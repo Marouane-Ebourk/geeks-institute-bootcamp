@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    // Exercise 1 : Find the Numbers Divisible by 23
+    function displayNumbersDivisible(divisor) {
+      var sum = 0
+      for (let num = 0; num <= 500; num++)
+        if (num % divisor == 0) {
+          console.log(num)
+          sum += num
+        }
+      console.log("sum: " + sum)
+    }
+
+    displayNumbersDivisible(23)
+
+    // Exercise 2 : Shopping List
+    const stock = {
+      "banana": 6,
+      "apple": 0,
+      "pear": 12,
+      "orange": 32,
+      "blueberry": 1
+    }
+
+    const prices = {
+      "banana": 4,
+      "apple": 2,
+      "pear": 1,
+      "orange": 1.5,
+      "blueberry": 10
+    }
+
+    var shoppingList = ["banana", "orange", "apple"]
+
+    function myBill() {
+      var sum = 0
+      shoppingList.forEach(item => {
+        if (item in stock && stock[item] > 0) {
+          sum += prices[item]
+          stock[item] -= 1
+        }
+      })
+      return sum
+    }
+    console.log(myBill(), prices, stock)
+
+    // Exercise 3 : What's in my wallet ?
+    function changeEnough(itemPrice, amountOfChange) {
+      var sum = 0
+      const change = [0.25, 0.10, 0.05, 0.01]
+      for (let i = 0; i < amountOfChange.length; i++) {
+        sum += amountOfChange[i] * change[i]
+      }
+      return sum >= itemPrice
+    }
+
+    console.log(changeEnough(4.25, [25, 20, 5, 0]))
+    console.log(changeEnough(14.11, [2, 100, 0, 0]))
+    console.log(changeEnough(0.75, [0, 0, 20, 5]))
+
+    // Exercise 4 : Vacations Costs
+
+    function hotelCost() {
+      while (true) {
+        var nights = prompt("How many nights would you like to stay in the hotel?");
+        if (nights !== null && nights.trim() !== "" && !isNaN(nights) && Number(nights) > 0) {
+          nights = Number(nights);
+          return nights * 140;
+        }
+        alert("Please enter a valid number of nights.");
+      }
+    }
+
+    function planeRideCost() {
+      while (true) {
+        destination = prompt("What's your destination?");
+        if (destination !== null && typeof destination == "string" && destination.trim() !== "") {
+          switch (destination) {
+            case "London":
+              return 138;
+            case "Paris":
+              return 220;
+            default:
+              return 330;
+          }
+        }
+
+      }
+    }
+
+    function rentalCarCost() {
+      while (true) {
+        var days = prompt("How many days would you like to rent the car?");
+        if (days !== null && days.trim() !== "" && !isNaN(days) && Number(days) > 0) {
+          var cost = days * 40
+          if (days > 10)
+            cost = cost - (cost * 0.05)
+
+          return cost
+        }
+      }
+    }
+
+    function totalVacationCost() {
+      var hc = hotelCost()
+      var prc = planeRideCost()
+      var rcc = rentalCarCost()
+
+      console.log(`The car cost: ${rcc}, the hotel cost: ${hc}, the plane tickets cost: ${prc}.`)
+    }
+
+    totalVacationCost()
+
+  </script>
+
+  <div id="container">Users:</div>
+  <ul class="list">
+    <li>John</li>
+    <li>Pete</li>
+  </ul>
+  <ul class="list">
+    <li>David</li>
+    <li>Sarah</li>
+    <li>Dan</li>
+  </ul>
+  <script>
+    // Exercise 5 : Users
+    const div = document.querySelector("div");
+    console.log(div)
+
+    const peteLi = document.querySelector("ul:first-of-type > li:last-child")
+    peteLi.innerHTML = "Richard"
+
+    const liToRemove = document.querySelector("ul:last-of-type > li:nth-child(2)")
+    liToRemove.remove()
+
+    const uls = document.querySelectorAll("ul")
+    uls.forEach(ul => {
+      const firstChild = ul.querySelector(":first-child")
+      if (firstChild)
+        firstChild.innerHTML = "Marouane"
+    })
+
+    uls.forEach(ul => {
+      ul.classList.add("student_list");
+    })
+    uls[0].classList.add("university", "attendance")
+
+    div.style.backgroundColor = "lightblue"
+    div.style.padding = "10px"
+    const danLi = document.querySelector("ul:last-of-type > li:last-child")
+    danLi.style.display = "None"
+    const richardLi = document.querySelector("ul:first-of-type > li:last-child")
+    richardLi.style.border = "1px solid red"
+  </script>
+
+  <div id="navBar">
+    <ul>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">My Friends</a></li>
+      <li><a href="#">Messenger</a></li>
+      <li><a href="#">My Pics</a></li>
+    </ul>
+  </div>
+
+  <script>
+    const div = document.querySelector("div")
+    div.setAttribute("id", "socialNetworkNavigation")
+
+    const ul = document.querySelector("ul")
+    const li = document.createElement("li")
+    const text = document.createTextNode("Logout")
+    li.appendChild(text)
+    ul.appendChild(li)
+
+
+    const firstChild = ul.firstElementChild
+    const lastChild = ul.lastElementChild
+    console.log(firstChild.textContent)
+    console.log(lastChild.textContent)
+  </script>
+
+  <section class="listBooks"></section>
+  <script>
+    let allBooks = [
+      {
+        title: "To Kill a Mockingbird",
+        author: "Harper Lee",
+        image: "https://covers.openlibrary.org/b/id/8228691-L.jpg",
+        alreadyRead: true
+      },
+      {
+        title: "1984",
+        author: "George Orwell",
+        image: "https://covers.openlibrary.org/b/id/7222246-L.jpg",
+        alreadyRead: false
+      }
+    ]
+
+    const section = document.querySelector(".listBooks")
+
+    allBooks.forEach(book => {
+      const div = document.createElement("div")
+      const textNode = document.createTextNode(`${book.title} written by ${book.author}.`)
+      div.appendChild(textNode)
+      if (book.alreadyRead)
+        div.style.color = "red"
+      
+
+      const img = document.createElement("img")
+      img.src = book.image
+      img.width = 100
+
+      section.appendChild(div)
+      section.appendChild(img)
+    })
+  </script>
+</body>
+
+
+</html>
