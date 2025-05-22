@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    table td,
+    table th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+      background-color: #ddd;
+    }
+
+    table th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    // Exercise 1: Random Number
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    console.log("Random Number: " + randomNumber);
+    for (let i = 0; i <= randomNumber; i++) {
+      if (i % 2 === 0) {
+        console.log(i);
+      }
+    }
+
+    // Exercise 2: Capitalized letters
+    function evenandOdd(str) {
+      let even = "";
+      let odd = "";
+      for (let i = 0; i < str.length; i++) {
+        if (i % 2 === 0) {
+          even += str[i].toUpperCase();
+          odd += str[i];
+        } else {
+          even += str[i];
+          odd += str[i].toUpperCase();
+        }
+      }
+      return [even, odd];
+    }
+
+    // Exercise 3 : Is palindrome?
+    function isPalindrome(str) {
+      str = str.toLowerCase();
+      let reversedStr = str.split("").reverse().join("");
+      return str === reversedStr;
+    }
+    isPalindrome("racecar"); // true
+    isPalindrome("hello"); // false
+
+    // Exercise 4 : Biggest Number
+
+    function biggestNumberInArray(arrayNumber) {
+      let biggest = 0;
+      for (let i = 1; i < arrayNumber.length; i++) {
+        if (typeof arrayNumber[i] == "number" && arrayNumber[i] > biggest) {
+          biggest = arrayNumber[i];
+        }
+      }
+      return biggest;
+    }
+    const array = [-1, 0, 3, 100, 99, 2, 99];// should return 100 
+    const array2 = ['a', 3, 4, 2]; // should return 4 
+    const array3 = []; // should return 0
+
+    console.log(biggestNumberInArray(array)); // 100
+    console.log(biggestNumberInArray(array2)); // 4
+    console.log(biggestNumberInArray(array3)); // 0
+
+    // Exercise 5 : Unique Elements
+    function getUniqueElements(array) {
+      let unique = []
+      for (element in array) {
+        if (!elment in unique)
+          unique.push(elment)
+      }
+      return unique
+    }
+
+    // Exercise 6 : Calendar
+    function createCalendar(year, month) {
+      if (typeof month != "number" || month > 12 || month < 1) throw "wrong month"
+
+      let days = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
+
+      // months are 0 indexed
+      // we set the date to the first day of that month in that year
+      const firstDay = new Date(year, month - 1, 1);
+      // from 0 to 6 representing the index of the day
+      const firstDayIndex = firstDay.getDay()
+      console.log(firstDayIndex, days[firstDayIndex]) // 4 TH
+      // calculate number of days in the month
+      const daysInMonth = new Date(year, month, 0).getDate();
+      console.log("Days in month:", daysInMonth); // 31
+
+      // create table
+      const table = document.createElement("table")
+      const daysNamesTr = document.createElement("tr")
+      // days table header
+      days.forEach(day => {
+        const th = document.createElement("th")
+        th.textContent = day
+        daysNamesTr.appendChild(th)
+      })
+      table.appendChild(daysNamesTr)
+
+      // the row to create the days in the calendar
+      var weekTr = document.createElement("tr")
+      // add days before day1
+      if (firstDayIndex > 0) {
+        for (let i = 0; i < firstDayIndex; i++) {
+          var dayCell = document.createElement("td")
+          dayCell.textContent = "."
+          weekTr.appendChild(dayCell)
+        }
+      }
+
+      var day = 1
+      while (day <= daysInMonth) {
+        var dayCell = document.createElement("td")
+        dayCell.textContent = day
+        weekTr.appendChild(dayCell)
+        console.log(firstDayIndex, day, (day + firstDayIndex) % 7)
+        // if reached the last day of the week add the week to the table
+        // and then reset
+        var dayIndex = (day + firstDayIndex - 1) % 7
+        if (dayIndex == 6) {
+          console.log("it got in")
+          table.appendChild(weekTr)
+          // reset row
+          weekTr = document.createElement("tr")
+        }
+        // if reached the last day of the month just add another row
+        if (day == daysInMonth) {
+          // if there is anymore days after add empty rows
+          if (dayIndex < 6) {
+            for (let i = dayIndex + 1; i <= 6; i++) {
+              var dayCell = document.createElement("td")
+              dayCell.textContent = "."
+              weekTr.appendChild(dayCell)
+            }
+          }
+          table.appendChild(weekTr)
+        }
+        day += 1
+      }
+
+
+      document.body.appendChild(table)
+
+    }
+
+    createCalendar(2025, 2)
+  </script>
+
+</body>
+
+</html>
