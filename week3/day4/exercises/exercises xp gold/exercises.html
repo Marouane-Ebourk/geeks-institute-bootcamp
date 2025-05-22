@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <!-- Exercise 1 : Select A Kind Of Music -->
+  <select id="genres">
+    <option value="rock">Rock</option>
+    <option value="blues" selected>Blues</option>
+  </select>
+  <script>
+    //Display the value of the selected option.
+    const selectElement = document.getElementById('genres');
+    selectElement.addEventListener('change', function() {
+      console.log(selectElement.value);
+    });
+
+    // Add an additional option to the select tag:
+    // <option value="classic">Classic</option>
+
+    const newOption = document.createElement('option');
+    newOption.value = 'classic';
+    newOption.textContent = 'Classic';
+    selectElement.appendChild(newOption);
+
+    //The newly added option should be selected by default.
+    newOption.selected = true;
+
+
+  </script>
+
+  <!-- Exercise 2: Delete colors -->
+  <form>
+    <select id="colorSelect">
+      <option>Red</option>
+      <option>Green</option>
+      <option>White</option>
+      <option>Black</option>
+    </select>
+    <input type="button" value="Select and Remove">
+  </form>
+
+  <script>
+    // Add a click event listener to the <input type="button">. When clicked on, it should call a function named : removecolor() that removes the selected color from the dropdown list.
+
+    const button = document.querySelector('input[type="button"]');
+    const select = document.getElementById('colorSelect');
+    button.addEventListener('click', removecolor);
+    function removecolor() {
+      const selectedOption = select.options[select.selectedIndex];
+      select.removeChild(selectedOption);
+    }
+  </script>
+
+  <!-- Exercise 3 : Create a shopping list -->
+  <div id="root"></div>
+  <script>
+    let shoppingList = [];
+    const root = document.getElementById('root');
+    const form = document.createElement('form');
+    const input = document.createElement('input');
+    input.type = 'text'; 
+    input.placeholder = 'Enter item';
+    const addButton = document.createElement('input');
+    addButton.type = 'button';
+    addButton.value = 'Add Item'; 
+    const clearButton = document.createElement('input');
+    clearButton.type = 'button';
+    clearButton.value = 'Clear All';
+    form.appendChild(input);
+    form.appendChild(addButton);
+    form.appendChild(clearButton);
+    root.appendChild(form);
+
+    const list = document.createElement('ul');
+    root.appendChild(list);
+    function addItem() {
+      const item = input.value;
+      if (item) {
+        shoppingList.push(item);
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.appendChild(li);
+        input.value = '';
+      }
+    }
+    function clearAll() {
+      shoppingList = [];
+      list.innerHTML = '';
+    }
+    addButton.addEventListener('click', addItem);
+    clearButton.addEventListener('click', clearAll);
+  </script>
+
+
+</body>
+
+</html>
