@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #totalTip {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Exercise 1 : Calculate the tip -->
+  <div id="container">
+    <h1>Tip Calculator</h1>
+    <div id="calculator">
+      <form>
+        <p>How much was your bill?</p>
+        $ <input id="billamt" type="text" placeholder="Bill Amount">
+
+        <p>How was your service?</p>
+        <select id="serviceQual">
+          <option disabled selected value="0">-- Choose an Option --</option>
+          <option value="0.3">30&#37; &#45; Outstanding</option>
+          <option value="0.2">20&#37; &#45; Good</option>
+          <option value="0.15">15&#37; &#45; It was OK</option>
+          <option value="0.1">10&#37; &#45; Bad</option>
+          <option value="0.05">5&#37; &#45; Terrible</option>
+        </select>
+      </form>
+
+      <p>How many people are sharing the bill?</p>
+      <input id="peopleamt" type="text" placeholder="Number of People"> people
+      <button type="button" id="calculate">Calculate!</button>
+
+    </div>
+    <!--calculator end-->
+
+    <div id="totalTip">
+      <sup>$</sup><span id="tip"></span>
+      <small id="each">each</small>
+    </div>
+    <!--totalTip end-->
+
+  </div>
+  <!--container end-->
+  <script>
+
+    const button = document.getElementById("calculate")
+
+    function calculateTip() {
+      var billAmount = parseFloat(document.getElementById("billamt")?.value);
+      var serviceQuality = parseFloat(document.getElementById("serviceQual")?.value);
+      var numberOfPeople = parseInt(document.getElementById("peopleamt")?.value);
+
+      if (!serviceQuality || isNaN(billAmount) || billAmount === 0) {
+        alert("Please fill in the service quality, and the bill amount!");
+        return;
+      }
+
+      if (!numberOfPeople || numberOfPeople < 1) {
+        numberOfPeople = 1;
+        document.getElementById("each").style.display = "none";
+      } else {
+        document.getElementById("each").style.display = "inline";
+      }
+
+      const total = ((billAmount * serviceQuality) / numberOfPeople).toFixed(2);
+
+      const totalTip = document.getElementById("totalTip");
+      totalTip.style.display = "block";
+
+      const tip = document.getElementById("tip");
+      tip.textContent = total;
+    }
+
+    button.onclick = calculateTip
+  </script>
+
+  <!-- Exercise 2 : Validate the email -->
+  <form id="emailForm" style="margin-top:30px;">
+    <label for="userEmail">Enter your email:</label>
+    <input type="email" id="userEmail" name="userEmail" required>
+    <button type="submit">Submit</button>
+    <span id="emailMsg" style="color:red; margin-left:10px;"></span>
+  </form>
+
+  <script>
+    // Without regex
+    function validateEmailSimple(email) {
+      const atIndex = email.indexOf('@');
+      const dotIndex = email.lastIndexOf('.');
+      return (
+        atIndex > 0 &&               // @ is not the first char
+        dotIndex > atIndex + 1 &&    // . is not right after the @
+        dotIndex < email.length - 1  // . is not at the end of the email
+      );
+    }
+
+    // With regex
+    function validateEmailRegex(email) {
+      // Basic email regex pattern
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
+
+    document.getElementById('emailForm').onsubmit = function(e) {
+      e.preventDefault();
+      const email = document.getElementById('userEmail').value.trim();
+      const msg = document.getElementById('emailMsg');
+
+      // let isValid = validateEmailSimple(email);
+      let isValid = validateEmailRegex(email);
+
+      if (isValid) {
+        msg.style.color = 'green';
+        msg.textContent = 'Valid email!';
+      } else {
+        msg.style.color = 'red';
+        msg.textContent = 'Invalid email address.';
+      }
+    };
+  </script>
+
+  <!-- Exercise 3 : Get the user’s geolocation coordinates -->
+  <div style="margin-top:30px;">
+    <button id="getLocationBtn">Get My Location</button>
+    <div id="geoOutput" style="margin-top:10px;"></div>
+  </div>
+  <script>
+    document.getElementById('getLocationBtn').onclick = function() {
+      const output = document.getElementById('geoOutput');
+      if (!navigator.geolocation) {
+        output.textContent = "Geolocation is not supported by your browser.";
+        return;
+      }
+      output.textContent = "Locating...";
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          output.textContent = "Latitude: " + position.coords.latitude;
+        },
+        function() {
+          output.textContent = "Unable to retrieve your location.";
+        }
+      );
+    };
+  </script>
+
+</body>
+
+</html>
