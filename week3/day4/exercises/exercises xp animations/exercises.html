@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    p {
+      background: yellow;
+      color: red;
+    }
+  </style>
+  <style>
+    #container {
+      width: 400px;
+      height: 400px;
+      position: relative;
+      background: yellow;
+    }
+
+    #animate {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      background-color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Exercise 1 : Timer -->
+  <div id="container"></div>
+  <button id="clear">Clear Interval</button> -->
+
+  <script>
+    setTimeout(() => {
+      alert ("Hello World")
+    }, 2000)
+
+    setTimeout(() => {
+      const container = document.getElementById("container")
+      const p = document.createElement("p")
+      p.textContent = "Hello World"
+      container.appendChild(p)
+    }, 2000)
+
+    const interval = setInterval(() => {
+      const container = document.getElementById("container")
+      const p = document.createElement("p")
+      p.textContent = "Hello World"
+      container.appendChild(p)
+      const paragraphs = container.querySelectorAll("p")
+      if (paragraphs.length == 5 ) {
+        clearInterval(interval)
+      }
+    }, 2000)
+    const clearBtn = document.getElementById("clear")
+    clearBtn.onclick = () => { clearInterval(interval) }
+  </script>
+
+  <p><button onclick="myMove()">Click Me</button></p>
+  <div id="container">
+    <div id="animate"></div>
+  </div>
+  <script>
+    const animate = document.getElementById("animate")
+    const container = document.getElementById("container")
+    var left = 0
+    function myMove() {
+      const interval = setInterval(() => {
+        left += 1
+        animate.style.left = left + "px"
+        if (left == container.clientWidth - animate.clientWidth) {
+          clearInterval(interval)
+        }
+      }, 1)
+    }
+  </script>
+</body>
+
+</html>
