@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coloring game</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      max-width: 100%;
+      padding: 10px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      min-height: 300px;
+      margin-inline: auto;
+      background: rgb(62, 59, 59);
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      column-gap: 15px;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px 3px;
+    }
+
+    .clear {
+      grid-column: 1 / -2;
+      padding: 4px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bolder;
+    }
+
+    .selected-color {
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+      background: white;
+    }
+
+    .color-cell {
+      padding-block: 10px;
+    }
+
+    .canvas {
+      background-color: white;
+      display: grid;
+    }
+
+    .canvas>.drawing-cell {
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="palette">
+      <button class="clear">Clear</button>
+      <div class="selected-color"></div>
+
+    </div>
+    <div class="canvas">
+    </div>
+  </div>
+</body>
+<script>
+  // global variables
+  const palette = document.querySelector(".palette")
+  const clearBtn = document.querySelector("button.clear")
+  const canvas = document.querySelector(".canvas")
+  const selectedColorDisplay = document.querySelector(".selected-color")
+
+  const canvasSize = { cols: 40, rows: 20 };
+  var selectedColor = "";
+  var isDrawing = false;
+
+
+  // add in the palette of color
+  const colors = [
+    "#FFEBEE", "#FFCDD2", "#F8BBD0", "#E1BEE7", "#D1C4E9",
+    "#C5CAE9", "#BBDEFB", "#B3E5FC", "#B2EBF2", "#B2DFDB",
+    "#C8E6C9", "#DCEDC8", "#F0F4C3", "#FFF9C4", "#FFECB3",
+    "#FFE0B2", "#FFCCBC", "#D7CCC8", "#F5F5F5", "#CFD8DC",
+    "#E0F7FA"
+  ];
+  for (color of colors) {
+    const colorCell = document.createElement("button")
+    colorCell.style.backgroundColor = color;
+    colorCell.classList.add("color-cell")
+    colorCell.id = color
+    colorCell.addEventListener("click", handlePaletteColorClick)
+    palette.appendChild(colorCell)
+  }
+  clearBtn.onclick = function () {
+    selectedColor = ""
+    selectedColorDisplay.style.backgroundColor = "white"
+    // clear canvas
+    const cells = document.querySelectorAll(".drawing-cell")
+    cells.forEach(cell => {
+      cell.style.backgroundColor = "white"
+    })
+
+  }
+
+  function handlePaletteColorClick() {
+    selectedColor = this.id
+    selectedColorDisplay.style.backgroundColor = selectedColor;
+  }
+
+  // create the drawing grid
+  canvas.style.gridTemplateColumns = `repeat(${canvasSize.cols}, 1fr)`;
+  canvas.style.gridTemplateRows = `repeat(${canvasSize.rows}, 1fr)`;
+  for (let i = 0; i < canvasSize.cols * canvasSize.rows; i++) {
+    const cell = document.createElement("div")
+    cell.classList.add("drawing-cell")
+    cell.onmousemove = handleCanvasCellHovered
+    canvas.appendChild(cell)
+  }
+
+  // drawing functionnality 
+  canvas.onmousedown = () => { isDrawing = true; console.log("canvas mousedown") }
+  canvas.onmouseup = () => { isDrawing = false; console.log("canvas mouseup") }
+  canvas.onmouseleave = () => { isDrawing = false; console.log("canvas mouseleave") }
+
+  function handleCanvasCellHovered() {
+    if (selectedColor != "" && isDrawing) {
+      this.style.backgroundColor = selectedColor;
+    }
+  }
+  // Prevent drag ghost image on palette and canvas
+  palette.ondragstart = (e) => e.preventDefault();
+  canvas.ondragstart = (e) => e.preventDefault();
+
+</script>
+
+</html>
