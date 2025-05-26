@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    nav {
+      background-color: #007bff;
+      padding: 10px;
+      color: white;
+      display: flex;
+      width: 100%;
+      justify-content: end;
+    }
+    img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div id="user-profile"></div>
+  </nav>
+
+  <script>
+    (function (userName) {
+      const userProfile = document.getElementById('user-profile');
+      userProfile.innerHTML = `<p>Welcome, ${userName}!</p><img src="https://avatar.iran.liara.run/public/boy" alt="${userName}'s profile picture">`;
+    })('John');
+  </script>
+</body>
+</html>
