@@ -1,0 +1,234 @@
+/* colors: #b09e99;  #d8cfcc; */
+/* text: 6c757d */
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #b09e99;
+    font-family: sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 20rem;
+    background-color: #d8cfcc;
+    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 2rem;
+}
+
+button#generate-quote-btn {
+    background-color: #64b6ac;
+    padding: 1rem 3rem;
+    color: white;
+    box-shadow: 3px 3px 0 1px #99999945;
+    border: none;
+    font-size: 1.1rem;
+}
+button#generate-quote-btn:hover {
+    background-color: #37c8b7;
+}
+
+button#generate-quote-btn:active {
+    background-color: #37c8b7;
+    box-shadow: none;
+    transform: translateY(4px);
+}
+
+section#quote-section {
+    display: flex;
+    flex-direction: column;
+}
+
+section#quote-section p {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: #7f7c7d;
+    margin: 0 0 20px 0;
+}
+
+section#quote-section p:before,
+section#quote-section p:after {
+    display: inline-block;
+    vertical-align: bottom;
+    font-weight: bold;
+    font-size: 3rem;
+    line-height: 1rem;
+}
+section#quote-section p:before {
+    content: open-quote;
+    margin-right: 0.7rem;
+}
+section#quote-section p:after {
+    content: close-quote;
+    margin-left: 0.7rem;
+}
+
+section#quote-section span {
+    align-self: flex-end;
+    color: #64b6af;
+}
+
+#toggle-form-btn {
+    background-color: #b09e99;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0.7rem;
+    box-shadow: 2px 2px 0 1px #99999945;
+    transition: background 0.2s;
+}
+
+#toggle-form-btn:hover,
+#toggle-form-btn:active {
+    background-color: #a08e89;
+    box-shadow: none;
+}
+
+form#add-quote-form {
+    display: none;
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* Show form when .show-form is present */
+form#add-quote-form.show-form {
+    display: flex;
+}
+
+form#add-quote-form input[type="text"] {
+    padding: 0.6rem 1rem;
+    border: 1px solid #b09e99;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: #fff;
+    color: #6c757d;
+}
+
+form#add-quote-form input[type="text"]:focus {
+    outline: none;
+    border-color: #64b6ac;
+}
+
+form#add-quote-form button[type="submit"] {
+    background-color: #64b6ac;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 1px #99999945;
+    transition: background 0.2s;
+}
+
+form#add-quote-form button[type="submit"]:hover,
+form#add-quote-form button[type="submit"]:active {
+    background-color: #37c8b7;
+    box-shadow: none;
+}
+
+.stats-buttons {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+}
+.stats-buttons.show-buttons {
+    display: flex;
+}
+
+.stats-buttons button {
+    background-color: #b09e99;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 1px #99999945;
+    transition: background 0.2s;
+}
+
+.stats-buttons button:hover,
+.stats-buttons button:active {
+    background-color: #a08e89;
+    box-shadow: none;
+}
+
+#like-count {
+    font-size: 0.95rem;
+    color: #b09e99;
+    margin-top: 0.2rem;
+    align-self: flex-end;
+}
+
+form#filter-form {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    margin-bottom: 0.7rem;
+}
+
+form#filter-form input[type="text"] {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid #b09e99;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: #fff;
+    color: #6c757d;
+}
+
+form#filter-form button[type="submit"] {
+    background-color: #64b6ac;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 1px #99999945;
+    transition: background 0.2s;
+}
+
+form#filter-form button[type="submit"]:hover,
+form#filter-form button[type="submit"]:active {
+    background-color: #37c8b7;
+    box-shadow: none;
+}
+
+#filter-nav {
+    display: flex;
+    justify-content: center;
+}
+
+#filter-nav button {
+    background-color: #b09e99;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 1px #99999945;
+    transition: background 0.2s;
+}
+
+#filter-nav button:hover,
+#filter-nav button:active {
+    background-color: #a08e89;
+    box-shadow: none;
+}
