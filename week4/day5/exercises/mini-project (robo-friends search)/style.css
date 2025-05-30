@@ -1,0 +1,129 @@
+/* ============================ */
+/*          css reset           */
+/* ============================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* ============================ */
+/*        header styling        */
+/* ============================ */
+
+@font-face {
+    font-family: "SEGA";
+    src: url("./assets/fonts/SEGA.TTF") format("woff");
+}
+
+header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 3rem;
+    padding: 1rem 2rem;
+    background-color: #6adf82;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header h1 {
+    color: black;
+    font-family: "SEGA", sans-serif;
+    font-weight: 400;
+    font-size: 1.8rem;
+    color: #2f3a52;
+}
+
+header input#search {
+    padding: 0.4rem 0.6rem;
+    width: 100%;
+    max-width: 33rem;
+    font-size: 0.8rem;
+    background-color: #c8d6e5;
+    color: #898c91;
+    border: none;
+}
+
+/* ============================ */
+/*     main section styling     */
+/* ============================ */
+
+main {
+    background: url("./assets/images/circuit-pattern.png"), #6556cd;
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+    flex: 1 0 auto;
+}
+
+main .robo-container {
+    width: 100%;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    height: fit-content;
+}
+
+@media (max-width: 690px) {
+    main .robo-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 570px) {
+    main .robo-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+main .robo-container .robo-card {
+    background: url("./assets/images/card-pattern.png"), #4ebfc4;
+    padding: 1.4rem 1rem;
+    border-radius: 0.6rem;
+}
+
+main .robo-container .robo-card .robo-img {
+    width: 100%;
+    border-radius: 100%;
+    background: #303952;
+    margin-bottom: 0.8rem;
+}
+
+main .robo-container .robo-card .robo-name {
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}
+main .robo-container .robo-card .robo-email {
+    font-size: 0.9rem;
+    font-weight: 100;
+}
+
+main .robo-container .not-found-message {
+    grid-column: span 3;
+}
