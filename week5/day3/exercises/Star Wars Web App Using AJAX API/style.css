@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: #000 url("https://i.giphy.com/media/TxVVB6PfWMjE4/200.webp") repeat center center fixed;
+    background-size: cover;
+    font-family: 'Orbitron', 'Helvetica Neue', Arial, sans-serif;
+    color: #ffe81f;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 2rem;
+}
+
+img {
+    width: 100%;
+    max-width: 22rem;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 10px #ffe81f);
+}
+
+.character {
+    border: 3px solid #ffe81f;
+    border-radius: 1rem;
+    background: rgba(0,0,0,0.85);
+    box-shadow: 0 0 24px 4px #ffe81f44, 0 0 0 8px #000 inset;
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    width: 100%;
+    max-width: 32rem;
+    min-height: 12rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.result {
+    font-size: 1.25rem;
+    color: #ffe81f;
+    text-shadow: 0 0 8px #ffe81f88, 0 0 2px #fff;
+    letter-spacing: 1px;
+}
+
+.result strong {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    text-shadow: 0 0 12px #ffe81f, 0 0 2px #fff;
+    letter-spacing: 2px;
+}
+
+.result p {
+    margin: 0.5rem 0;
+    color: #ffe81f;
+    font-size: 1.1rem;
+    text-shadow: 0 0 6px #ffe81f88;
+}
+
+.loading {
+    color: #ffe81f;
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    text-shadow: 0 0 8px #ffe81f88;
+}
+.loading i {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 8px #ffe81f);
+}
+.loading p {
+    font-size: 1.2rem;
+}
+
+button {
+    background: #ffe81f;
+    color: #000;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.9rem 2.5rem;
+    margin-top: 1rem;
+    box-shadow: 0 0 16px #ffe81f88, 0 0 2px #fff;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    text-transform: uppercase;
+}
+button:hover {
+    background: #fff;
+    color: #ffe81f;
+    transform: scale(1.04);
+    box-shadow: 0 0 24px #ffe81f, 0 0 2px #fff;
+}
+
+.hide {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .character {
+        padding: 1rem 0.5rem;
+        max-width: 95vw;
+    }
+    img {
+        max-width: 90vw;
+    }
+    button {
+        width: 90vw;
+        font-size: 1.1rem;
+    }
+}
