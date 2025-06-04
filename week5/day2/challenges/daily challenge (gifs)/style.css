@@ -1,0 +1,125 @@
+body {
+    background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
+    font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#gif-form {
+    background: #fffbe7;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 30px 20px;
+    margin: 40px auto 20px auto;
+    width: 350px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#gif-input {
+    border: 2px solid #ff4e50;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.1em;
+    outline: none;
+    transition: border 0.2s;
+    background: #fff;
+}
+
+#gif-input:focus {
+    border-color: #f9d423;
+}
+
+#gif-form button[type="submit"] {
+    background: linear-gradient(90deg, #ff4e50 60%, #f9d423 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s, transform 0.2s;
+}
+
+#gif-form button[type="submit"]:hover {
+    background: linear-gradient(90deg, #f9d423 60%, #ff4e50 100%);
+    transform: scale(1.07) rotate(-2deg);
+}
+
+#delete-all {
+    display: block;
+    margin: 0 auto 20px auto;
+    background: #fffbe7;
+    color: #ff4e50;
+    border: 2px dashed #ff4e50;
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+#delete-all:hover {
+    background: #ff4e50;
+    color: #fffbe7;
+    border: 2px solid #fffbe7;
+}
+
+#gif-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    margin: 0 10px 30px 10px;
+}
+
+.gif-wrapper {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+    padding: 18px 12px 12px 12px;
+    position: relative;
+    transition: transform 0.2s;
+    min-width: 220px;
+    max-width: 260px;
+}
+
+.gif-wrapper:hover {
+    transform: scale(1.04) rotate(-2deg);
+    box-shadow: 0 8px 24px rgba(255, 78, 80, 0.18);
+}
+
+.gif-wrapper img {
+    display: block;
+    max-width: 220px;
+    border-radius: 12px;
+    margin: 0 auto 10px auto;
+    border: 3px solid #f9d423;
+    background: #fffbe7;
+}
+
+.delete-btn {
+    background: linear-gradient(90deg, #ff4e50 60%, #f9d423 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(90deg, #f9d423 60%, #ff4e50 100%);
+    transform: scale(1.08) rotate(2deg);
+}
