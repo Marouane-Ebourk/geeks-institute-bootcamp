@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Giphy API 2</title>
+</head>
+
+<body>
+  <script>
+    // Use the Fetch API to retrieve 10 gifs about the “sun”. The starting position of the results should be 2.
+    // Make sure to check the status of the Response and to catch any occuring errors.
+
+    const API_KEY = "hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My"
+    async function fetchGIFs(searchQuery, limit, offset) {
+      try {
+
+        const urlWithParams = new URL("https://api.giphy.com/v1/gifs/search");
+        urlWithParams.searchParams.append("q", searchQuery)
+        urlWithParams.searchParams.append("limit", limit)
+        urlWithParams.searchParams.append("offset", offset)
+        urlWithParams.searchParams.append("rating", "g")
+        urlWithParams.searchParams.append("api_key", API_KEY)
+
+        const response = await fetch(urlWithParams)
+        console.log(response)
+        if (response.ok) {
+          const data = await response.json()
+          return data;
+        }
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchGIFs("sun", 10, 2).then(data => {
+      console.log(data)
+    });
+  </script>
+</body>
+
+</html>

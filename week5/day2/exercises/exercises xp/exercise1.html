@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Giphy API</title>
+</head>
+
+<body>
+  <script>
+    const url = "https://api.giphy.com/v1/gifs/search?q=hilarious&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My"
+
+    async function fetchData(url) {
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        return data;
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchData(url).then(data => {
+      console.log(data)
+    });
+  </script>
+</body>
+
+</html>
