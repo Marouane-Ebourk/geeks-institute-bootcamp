@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giphy API #2</title>
+</head>
+
+<body>
+
+  <script>
+    const url = "https://api.giphy.com/v1/gifs/search?q=hilarious&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My"
+
+    async function fetchData(url) {
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        return data.data;
+      }
+      catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchData(url).then(data => {
+      // get random gif
+      const randomIndex = Math.floor(Math.random() * (data.length + 1))
+      const gifUrl = data[randomIndex].images.original.url;
+
+      const img = document.createElement("img");
+      img.src = gifUrl;
+
+      document.body.appendChild(img)
+    });
+  </script>
+</body>
+
+</html>
