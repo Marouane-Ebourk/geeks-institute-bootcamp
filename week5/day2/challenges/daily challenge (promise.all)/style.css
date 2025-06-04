@@ -1,0 +1,111 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
+    font-family: "Segoe UI", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#city-form {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    padding: 2rem 2.5rem;
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+fieldset {
+    border: none;
+    margin-bottom: 1.5rem;
+    padding: 0;
+}
+
+legend {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2193b0;
+    margin-bottom: 0.5rem;
+}
+
+label {
+    display: block;
+    margin-top: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.2rem;
+    border: 1px solid #b2bec3;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f7fafd;
+    margin-bottom: 0.5rem;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 0.7rem;
+    background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
+}
+
+#result {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 2rem;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1.15rem;
+    color: #222;
+    position: relative;
+}
+
+#result p {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#result strong {
+    color: #2193b0;
+    font-size: 1.3em;
+    margin-left: 0.5em;
+}
+
+#result p::before {
+    content: "🌅";
+    margin-right: 0.5em;
+    font-size: 1.3em;
+}
+
+@media (max-width: 500px) {
+    #city-form,
+    #result {
+        padding: 1rem;
+        max-width: 95vw;
+    }
+}
