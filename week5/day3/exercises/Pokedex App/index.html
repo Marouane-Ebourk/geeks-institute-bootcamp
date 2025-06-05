@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="./script.js" defer></script>
+  <title>Pokedex App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <img class="logo" src="./assets/logo.png" alt="pokemon logo">
+
+  <div class="container">
+    <div class="pokedex-container">
+      <img src="./assets/pokedex.png" alt="pokedex img">
+      <div class="prev"></div>
+      <div class="next"></div>
+      <div class="random"></div>
+      <div class="img-display">
+        <div class="content"></div>
+        <div class="fa-3x loading hide">
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        </div>
+      </div>
+      <div class="stats-display">
+        <div class="content"></div>
+        <div class="fa-3x loading hide">
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h2>How to use:</h2>
+      <p><b>1-</b> Press the <b>green</b> button to get a random Pokémon</p>
+      <p><b>2-</b> Press the <b>left</b> and <b>right</b> buttons to see previous and next Pokémon.</p>
+    </div>
+  </div>
+
+</body>
+
+</html>
