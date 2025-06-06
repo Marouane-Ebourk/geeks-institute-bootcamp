@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Emoji Guessing Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(135deg, #fdf6e3 0%, #c1e1ec 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+      padding: 2rem 2.5rem;
+      margin-top: 3rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .emoji {
+      font-size: 4rem;
+      margin: 1.2rem 0;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .options label {
+      background: #e0f2fe;
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+
+    .options input[type="radio"]:checked+span {
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .options label:hover {
+      background: #bae6fd;
+    }
+
+    .score {
+      font-size: 1.1rem;
+      margin-bottom: 0.7rem;
+      color: #2563eb;
+    }
+
+    .feedback {
+      margin: 0.7rem 0;
+      font-size: 1.1rem;
+      min-height: 1.5em;
+    }
+
+    .leaderboard {
+      margin-top: 2rem;
+      background: #f1f5f9;
+      border-radius: 0.7rem;
+      padding: 1rem;
+    }
+
+    .leaderboard h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: #334155;
+    }
+
+    .leaderboard ol {
+      padding-left: 1.2rem;
+      margin: 0;
+      text-align: left;
+    }
+
+    .player-form {
+      margin-bottom: 1.2rem;
+    }
+
+    .player-form input {
+      padding: 0.4rem 0.7rem;
+      border-radius: 0.4rem;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .player-form button {
+      margin-left: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 0.4rem;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .player-form button:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Emoji Guessing Game</h2>
+    <form class="player-form" id="player-form">
+      <input type="text" id="player-name" placeholder="Enter your name" required>
+      <button type="submit">Start</button>
+    </form>
+    <div class="score" id="score"></div>
+    <div class="emoji" id="emoji"></div>
+    <form id="guess-form" style="display:none;">
+      <div class="options" id="options"></div>
+      <button type="submit">Guess</button>
+    </form>
+    <div class="feedback" id="feedback"></div>
+    <button id="next-btn" style="display:none;">Next Emoji</button>
+  </div>
+  <div class="leaderboard" id="leaderboard">
+    <h3>Leaderboard</h3>
+    <ol id="leaderboard-list"></ol>
+  </div>
+  <script>
+    let currentOptions = [];
+    let playerName = '';
+    let score = 0;
+
+    const emojiDiv = document.getElementById('emoji');
+    const optionsDiv = document.getElementById('options');
+    const guessForm = document.getElementById('guess-form');
+    const feedbackDiv = document.getElementById('feedback');
+    const scoreDiv = document.getElementById('score');
+    const nextBtn = document.getElementById('next-btn');
+    const leaderboardList = document.getElementById('leaderboard-list');
+    const playerForm = document.getElementById('player-form');
+    const playerNameInput = document.getElementById('player-name');
+
+    function fetchQuestion() {
+      feedbackDiv.textContent = '';
+      nextBtn.style.display = 'none';
+      // --- Fix: Send player name as query param to backend ---
+      fetch('/api/question?player=' + encodeURIComponent(playerName))
+        .then(res => res.json())
+        .then(data => {
+          emojiDiv.textContent = data.emoji;
+          score = data.score;
+          scoreDiv.textContent = `Score: ${score}`;
+          optionsDiv.innerHTML = '';
+          data.options.forEach((opt, idx) => {
+            const id = 'opt' + idx;
+            const label = document.createElement('label');
+            label.htmlFor = id;
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'option';
+            radio.value = opt;
+            radio.id = id;
+            if (idx === 0) radio.required = true;
+            label.appendChild(radio);
+            const span = document.createElement('span');
+            span.textContent = opt;
+            label.appendChild(span);
+            optionsDiv.appendChild(label);
+          });
+          guessForm.style.display = '';
+        });
+    }
+
+    function fetchLeaderboard() {
+      fetch('/api/leaderboard')
+        .then(res => res.json())
+        .then(data => {
+          leaderboardList.innerHTML = '';
+          data.forEach(entry => {
+            const li = document.createElement('li');
+            li.textContent = `${entry.player}: ${entry.score}`;
+            leaderboardList.appendChild(li);
+          });
+        });
+    }
+
+    playerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      playerName = playerNameInput.value.trim();
+      if (playerName) {
+        playerForm.style.display = 'none';
+        fetchQuestion();
+        fetchLeaderboard();
+      }
+    });
+
+    guessForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) return;
+      fetch('/api/guess', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ guess: selected.value, player: playerName })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.correct) {
+            feedbackDiv.textContent = '✅ Correct!';
+          } else {
+            feedbackDiv.textContent = `❌ Wrong! The answer was: ${data.answer}`;
+          }
+          scoreDiv.textContent = `Score: ${data.score}`;
+          guessForm.style.display = 'none';
+          nextBtn.style.display = '';
+          fetchLeaderboard();
+        });
+    });
+
+    nextBtn.addEventListener('click', function () {
+      fetchQuestion();
+    });
+
+    // Initial leaderboard fetch
+    fetchLeaderboard();
+  </script>
+</body>
+
+</html>
