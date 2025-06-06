@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* ============================ */
+/*          css reset           */
+/* ============================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* ============================ */
+/*    main container styling    */
+/* ============================ */
+
+body {
+    font-family: "Raleway", sans-serif;
+    background: black;
+    color: white;
+}
+
+main {
+    width: 100%;
+    max-width: 40rem;
+    margin-inline: auto;
+    border: 1px solid white;
+    padding: 1.3rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* ============================ */
+/*   difficulty symbol styling  */
+/* ============================ */
+
+.symbol p {
+    font-weight: 300;
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+}
+
+.symbol-choices-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.symbol .symbol-choices-container button.symbol-choice {
+    cursor: pointer;
+    background: none;
+    border: 1px solid white;
+    color: currentColor;
+    font-size: 1.3rem;
+    padding: 0 2rem;
+}
+.symbol .symbol-choices-container button.symbol-choice:active,
+.symbol .symbol-choices-container button.symbol-choice.active {
+    background: white;
+    color: black;
+}
+
+/* ============================ */
+/*   difficulty choice styling  */
+/* ============================ */
+
+.difficulty p {
+    font-weight: 300;
+    font-size: 1.3rem;
+}
+
+.difficulty .difficulty-choice {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.difficulty .difficulty-choice div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.difficulty .difficulty-choice label,
+.difficulty .difficulty-choice input {
+    cursor: pointer;
+}
+
+.difficulty .difficulty-choice input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: black;
+    font: inherit;
+    color: currentColor;
+    width: 1em;
+    height: 1em;
+    border: 0.15em solid white;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+}
+
+.difficulty .difficulty-choice input[type="radio"]::before {
+    content: "";
+    width: 0.45em;
+    height: 0.45em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em white;
+}
+
+.difficulty .difficulty-choice input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+/* ============================ */
+/*      game board styling      */
+/* ============================ */
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+    grid-template-rows: repeat(3, minmax(100px, 1fr));
+}
+.game-board .game-cell {
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+}
+/* the left side cells */
+.game-board .game-cell:nth-of-type(3n - 2) {
+    border-left: none;
+}
+/* the right side cells */
+.game-board .game-cell:nth-of-type(3n) {
+    border-right: none;
+}
+/* the top side cells */
+.game-board .game-cell:nth-of-type(-n + 3) {
+    border-top: none;
+}
+/* the bottom side cells */
+.game-board .game-cell:nth-last-of-type(-n + 3) {
+    border-bottom: none;
+}
+
+/* ============================ */
+/*      game result styling     */
+/* ============================ */
+
+.result .result-text {
+    font-weight: 300;
+    font-size: 1.3rem;
+}

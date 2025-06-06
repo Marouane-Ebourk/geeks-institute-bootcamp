@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe game</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <!-- choose symbol -->
+    <div class="symbol">
+      <p>Choose which one to play with:</p>
+      <div class="symbol-choices-container">
+        <button class="symbol-choice" data-symbol="x">x</button>
+        <button class="symbol-choice" data-symbol="o">o</button>
+      </div>
+    </div>
+
+    <!-- choose difficulty -->
+    <div class="difficulty">
+      <p>Please choose a difficulty:</p>
+      <div class="difficulty-choice">
+        <div>
+          <input type="radio" id="easy" name="difficulty" value="easy" checked>
+          <label for="easy">🔥</label>
+        </div>
+        <div>
+          <input type="radio" id="hard" name="difficulty" value="hard">
+          <label for="hard">🔥🔥</label>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- game board -->
+    <div class="game-board">
+      <div class="game-cell" data-cell-id="0"></div>
+      <div class="game-cell" data-cell-id="1"></div>
+      <div class="game-cell" data-cell-id="2"></div>
+      <div class="game-cell" data-cell-id="3"></div>
+      <div class="game-cell" data-cell-id="4"></div>
+      <div class="game-cell" data-cell-id="5"></div>
+      <div class="game-cell" data-cell-id="6"></div>
+      <div class="game-cell" data-cell-id="7"></div>
+      <div class="game-cell" data-cell-id="8"></div>
+    </div>
+
+    <div class="result">
+      <p class="result-text"></p>
+    </div>
+    <!-- restart the game -->
+
+  </main>
+</body>
+
+</html>
