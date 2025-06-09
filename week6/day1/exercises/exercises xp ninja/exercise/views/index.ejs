@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>choose emojis</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      min-width: 320px;
+    }
+
+    input[type="text"] {
+      border: 2px solid #ff4e50;
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border: 2px solid #f9d423;
+      background: #fffbe7;
+    }
+
+    .emoji-options {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    label {
+      font-size: 2.2rem;
+      cursor: pointer;
+      transition: transform 0.2s, filter 0.2s;
+      padding: 0.2rem 0.5rem;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+
+    input[type="radio"]:checked+label {
+      background: #f9d423;
+      border-color: #ff4e50;
+      transform: scale(1.2) rotate(-10deg);
+      filter: drop-shadow(0 2px 8px #ff4e5077);
+    }
+
+    input[type="submit"] {
+      background: linear-gradient(90deg, #ff4e50 0%, #f9d423 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0.7rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #ff4e5077;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 1rem;
+    }
+
+    input[type="submit"]:hover {
+      background: linear-gradient(90deg, #f9d423 0%, #ff4e50 100%);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <form method="POST" action="/greet">
+    <input type="text" name="name" placeholder="Enter your name" required>
+
+
+    <div class="emoji-options">
+      <% emojis.forEach(function(emoji) { %>
+        <input type="radio" name="emoji" id="<%= emoji %>" value="<%= emoji %>">
+        <label for="<%= emoji %>">
+          <%= emoji %>
+        </label>
+        <% }); %>
+    </div>
+    <input type="submit">
+  </form>
+</body>
+
+</html>
