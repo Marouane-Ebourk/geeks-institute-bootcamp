@@ -1,0 +1,23 @@
+{
+  "name": "mini-project-task-management-api-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "css": "postcss src/css/input.css -o public/style.css --watch",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Keely",
+      "lastName": "Sanford",
+      "userName": "marouane",
+      "email": "fefojokapy@mailinator.com",
+      "password": "$2b$10$f/pv0j.vSYfGCDVaDAth0ee3qasOs.Nn4NhhHQrrbLpjLK9bdM062"
+    },
+    {
+      "id": 2,
+      "firstName": "marouane",
+      "lastName": "ebourk",
+      "userName": "marouane1",
+      "email": "marouaneebourk@gmail.com",
+      "password": "$2b$10$lTNeAkgU7CET7fXSunquduKaNy7GnUh63MyNh1E9yQG6aZAjSLjJK"
+    }
+  ]
+}
