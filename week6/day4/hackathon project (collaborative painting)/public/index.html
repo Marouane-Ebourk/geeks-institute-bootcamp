@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collaborative painting</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="socket.io/socket.io.js"></script>
+</head>
+
+<body
+  class="bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100 min-h-screen flex flex-col items-center justify-center">
+  <div id="username-modal" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
+    <form id="username-form"
+      class="bg-gradient-to-br from-pink-200 via-yellow-100 to-blue-200 p-8 rounded-2xl shadow-2xl flex flex-col gap-4 items-center border-4 border-yellow-300">
+      <label for="username-input" class="text-lg font-bold text-pink-700">🎨 Enter your username:</label>
+      <input type="text" id="username-input" required autocomplete="off"
+        class="rounded-lg px-4 py-2 border-2 border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 text-pink-800 font-semibold text-center bg-white shadow" />
+      <button type="submit"
+        class="mt-2 px-6 py-2 rounded-full bg-yellow-300 hover:bg-yellow-400 text-pink-900 font-bold shadow transition">Join</button>
+    </form>
+  </div>
+  <div id="controls" class="my-4 flex gap-6 items-center justify-center hidden">
+    <label class="flex items-center gap-2 font-semibold text-pink-700">
+      <span>Color:</span>
+      <input type="color" id="color-picker" value="#000000"
+        class="w-8 h-8 rounded-full border-2 border-pink-300 shadow" />
+    </label>
+    <label class="flex items-center gap-2 font-semibold text-blue-700">
+      <span>Size:</span>
+      <input type="range" id="size-picker" min="1" max="30" value="5" class="accent-pink-400" />
+      <span id="size-value" class="inline-block w-6 text-center bg-yellow-200 rounded font-bold">5</span>
+    </label>
+    <button id="eraser-btn" type="button"
+      class="px-4 py-2 rounded-full bg-blue-200 hover:bg-blue-300 text-blue-900 font-bold shadow transition flex items-center gap-2">
+      🧽 Clear Tool
+    </button>
+    <button id="clear-canvas-btn" type="button"
+      class="px-4 py-2 rounded-full bg-pink-200 hover:bg-pink-300 text-pink-900 font-bold shadow transition flex items-center gap-2">
+      🗑️ Clear Canvas
+    </button>
+  </div>
+  <div class="relative flex justify-center items-center w-full">
+    <!-- active users -->
+    <div class="relative">
+      <div id="active-users" class="absolute top-4 right-4 bg-white bg-opacity-80 rounded-lg p-4 shadow-lg z-20 hidden">
+        <h2 class="text-lg font-bold text-pink-700">Active Users:</h2>
+        <ul id="user-list" class="list-disc list-inside text-pink-800">
+          <!-- User list will be populated here -->
+          <li class="animate-pulse">Loading...</li>
+        </ul>
+      </div>
+      <canvas id="drawing-canvas" width="900" height="600"
+        class="w-full rounded-2xl border-4 border-pink-200 shadow-2xl bg-white hidden transition-all duration-300">
+      </canvas>
+    </div>
+  </div>
+  <script>
+    // socket.io instance
+    const socket = io();
+
+    const usernameModal = document.getElementById('username-modal');
+    const usernameForm = document.getElementById('username-form');
+    const usernameInput = document.getElementById('username-input');
+    const activeUsersList = document.getElementById('user-list');
+    let username = '';
+
+    // Update user list when receiving from server
+    socket.on("update-users", (users) => {
+      console.log(users)
+      activeUsersList.innerHTML = "";
+      (users || []).forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = user;
+        activeUsersList.appendChild(li);
+      });
+    });
+
+    usernameForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      username = usernameInput.value.trim();
+      if (username) {
+        usernameModal.style.display = 'none';
+        document.getElementById('controls').classList.remove('hidden');
+        document.getElementById('drawing-canvas').classList.remove('hidden');
+        document.getElementById('active-users').classList.remove('hidden');
+        socket.emit('join', username);
+      }
+    });
+
+    // Drawing logic
+    const canvas = document.getElementById('drawing-canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let lastX = 0, lastY = 0;
+
+    const colorPicker = document.getElementById('color-picker');
+    const sizePicker = document.getElementById('size-picker');
+    const sizeValue = document.getElementById('size-value');
+    const eraserBtn = document.getElementById('eraser-btn');
+    const clearCanvasBtn = document.getElementById('clear-canvas-btn');
+
+    let lastColor = colorPicker.value;
+    let erasing = false;
+
+    colorPicker.addEventListener('input', () => {
+      ctx.strokeStyle = colorPicker.value;
+      if (!erasing) lastColor = colorPicker.value;
+    });
+    sizePicker.addEventListener('input', () => {
+      ctx.lineWidth = sizePicker.value;
+      sizeValue.textContent = sizePicker.value;
+    });
+
+    // Eraser tool logic
+    eraserBtn.addEventListener('click', () => {
+      if (!erasing) {
+        erasing = true;
+        eraserBtn.classList.add('ring-2', 'ring-blue-500');
+        lastColor = ctx.strokeStyle;
+        ctx.strokeStyle = "#fff";
+      } else {
+        erasing = false;
+        eraserBtn.classList.remove('ring-2', 'ring-blue-500');
+        ctx.strokeStyle = colorPicker.value;
+      }
+    });
+
+    // Clear canvas logic
+    clearCanvasBtn.addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Set initial values
+    ctx.strokeStyle = colorPicker.value;
+    ctx.lineWidth = sizePicker.value;
+
+    function stopDrawing() {
+      drawing = false;
+      socket.emit('draw', {
+        canvasData: canvas.toDataURL(),
+        username: username,
+      })
+    }
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);;
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    });
+
+    // Handle drawing from other users
+    socket.on('draw', (data) => {
+      const img = new Image();
+      img.src = data.canvasData;
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+      };
+    });
+
+  </script>
+</body>
+
+</html>
