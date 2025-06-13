@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', {pageTitle: "Home"}) %>
+<body>
+  <%- include('../partials/header') %>
+
+  <div class="w-full max-w-4xl mx-auto px-4 py-8 flex gap-8">
+    <!-- Search Options -->
+    <div class="w-1/3 bg-white rounded shadow p-6 flex flex-col gap-4">
+      <form action="/search" method="GET" class="space-y-4">
+        <label for="query" class="block text-lg font-semibold">Search by Term</label>
+        <input
+          type="text"
+          id="query"
+          name="query"
+          class="w-full border rounded px-3 py-2"
+          placeholder="Enter keyword..."
+          required
+        />
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        >
+          Search
+        </button>
+      </form>
+      <form action="/search" method="GET" class="space-y-4">
+        <label for="category" class="block text-lg font-semibold">Search by Category</label>
+        <select
+          id="category"
+          name="category"
+          class="w-full border rounded px-3 py-2"
+          required
+        >
+          <option value="" disabled selected>Select category...</option>
+          <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+            <% categories.forEach(function(cat) { %>
+              <option value="<%= cat %>"><%= cat %></option>
+            <% }) %>
+          <% } %>
+        </select>
+        <button
+          type="submit"
+          class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+    <!-- Search Results -->
+    <div class="w-2/3 bg-gray-50 rounded shadow p-6">
+      <% if (typeof posts !== 'undefined' && posts.length > 0) { %>
+
+        <h2 class="text-2xl font-semibold mb-4">Results</h2>
+        <%- include('../partials/posts', {posts: posts}) %>
+
+      <% } else if (typeof posts !== 'undefined') { %>
+        <p class="text-gray-500">No results found.</p>
+      <% } else { %>
+        <p class="text-gray-400">Enter a keyword to search for facts.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+<script>
+  const queryparams = new URLSearchParams(window.location.search);
+  const query = queryparams.get('query');
+  const category = queryparams.get('category');
+  if (query) {
+    document.querySelector('#query').value = query;
+  }
+  if (category) {
+    document.querySelector('#category').value = category;
+  }
+</script>
+</html>

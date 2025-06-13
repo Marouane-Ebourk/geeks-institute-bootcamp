@@ -1,0 +1,24 @@
+{
+  "name": "mini-project-(rss-facts-feed)",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css": "postcss src/input.css -o public/style.css --watch",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.10",
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "postcss": "^8.5.5",
+    "rss-parser": "^3.13.0",
+    "tailwindcss": "^4.1.10"
+  }
+}

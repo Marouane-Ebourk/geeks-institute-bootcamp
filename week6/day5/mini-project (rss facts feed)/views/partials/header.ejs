@@ -1,0 +1,22 @@
+<header>
+  <style>
+    @media (min-width: 640px) {
+      .header-flex {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 2rem;
+      }
+    }
+  </style>
+  <div class="flex flex-col sm:header-flex items-center justify-between py-5 px-8 bg-gradient-to-r from-blue-500 to-blue-700 shadow-lg">
+    <div class="flex items-center gap-3">
+      <img src="/imgs/rss-32.png" alt="RSS Icon" class="w-10 h-10">
+      <span class="text-3xl font-extrabold text-white tracking-wide drop-shadow">RSS Facts Feed</span>
+      <nav class="flex gap-6 ml-8">
+        <a href="/" class="text-white hover:bg-white hover:text-blue-700 px-4 py-2 rounded transition font-semibold">Home</a>
+        <a href="/search" class="text-white hover:bg-white hover:text-blue-700 px-4 py-2 rounded transition font-semibold">Search</a>
+      </nav>
+    </div>
+  </div>
+  
+</header>
