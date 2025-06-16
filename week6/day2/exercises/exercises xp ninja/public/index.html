@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Quiz Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: #f6f8fa;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2d3748;
+      margin-top: 2rem;
+      letter-spacing: 1px;
+    }
+
+    #quiz {
+      background: #fff;
+      max-width: 500px;
+      margin: 2rem auto 0 auto;
+      padding: 2rem 2.5rem 1.5rem 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+      min-height: 180px;
+      font-size: 1.15rem;
+    }
+
+    .option {
+      margin: 0.7em 0;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      transition: background 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .option:hover {
+      background: #e6f7ff;
+    }
+
+    .option input[type="radio"] {
+      margin-right: 0.8em;
+      accent-color: #3182ce;
+      transform: scale(1.2);
+    }
+
+    button {
+      margin-top: 1.2em;
+      padding: 0.6em 2em;
+      background: #3182ce;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(49, 130, 206, 0.08);
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
+    #feedback {
+      margin-top: 1.5em;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      min-height: 1.5em;
+    }
+
+    #feedback:empty {
+      min-height: 0;
+    }
+
+    #score {
+      margin-top: 2em;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #2563eb;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      #quiz {
+        padding: 1.2rem 0.7rem 1rem 0.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Quiz Game</h1>
+  <div id="quiz"></div>
+  <div id="feedback"></div>
+  <div id="score"></div>
+  <script src="quiz.js"></script>
+</body>
+
+</html>
