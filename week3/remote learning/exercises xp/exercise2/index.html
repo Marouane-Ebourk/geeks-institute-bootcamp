@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Color Guessing Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Color Guessing Game</h1>
+    <div>
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty">
+        <option value="easy">Easy (3)</option>
+        <option value="medium">Medium (6)</option>
+        <option value="hard">Hard (Input)</option>
+      </select>
+    </div>
+    <div id="color-display" class="color-display"></div>
+    <div id="options" class="options"></div>
+    <div id="hard-input" class="hard-input" style="display:none;">
+      <input type="text" id="rgb-input" placeholder="e.g. rgb(123, 45, 67)">
+      <button id="submit-hard">Guess</button>
+    </div>
+    <div id="feedback" class="feedback"></div>
+    <div id="timer" class="timer"></div>
+    <button id="reset">New Color</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

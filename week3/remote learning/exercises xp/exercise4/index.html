@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack-a-Mole Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-top: 30px;
+      color: #00796b;
+    }
+    #game-container {
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      grid-template-rows: repeat(4, 70px);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .cell {
+      width: 70px;
+      height: 70px;
+      background: #b2dfdb;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .cell.active {
+      background: #ffd54f;
+      box-shadow: 0 0 10px #ffb300;
+    }
+    #scoreboard {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    #timer {
+      font-weight: bold;
+      color: #d84315;
+    }
+    #start-btn {
+      padding: 10px 25px;
+      font-size: 1rem;
+      background: #00796b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+    #start-btn:hover {
+      background: #004d40;
+    }
+    #high-scores {
+      margin-top: 30px;
+      background: #fffde7;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #ccc;
+      min-width: 250px;
+    }
+    #high-scores h2 {
+      margin-top: 0;
+      color: #fbc02d;
+    }
+    #name-input-container {
+      display: none;
+      margin-top: 20px;
+      background: #fffde7;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #ccc;
+    }
+    #name-input {
+      padding: 5px;
+      font-size: 1rem;
+      margin-right: 10px;
+    }
+    #submit-name-btn {
+      padding: 5px 15px;
+      font-size: 1rem;
+      background: #fbc02d;
+      color: #333;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Whack-a-Mole</h1>
+  <div id="game-container">
+    <div id="scoreboard">
+      Score: <span id="score">0</span> | Time: <span id="timer">30</span>s
+    </div>
+    <button id="start-btn">Start Game</button>
+    <div id="grid"></div>
+    <div id="name-input-container">
+      <span>New High Score! Enter your name:</span>
+      <input type="text" id="name-input" maxlength="12" placeholder="Your name">
+      <button id="submit-name-btn">Submit</button>
+    </div>
+  </div>
+  <div id="high-scores">
+    <h2>High Scores</h2>
+    <ol id="high-score-list"></ol>
+  </div>
+  <script>
+    // --- Game Variables ---
+    const gridSize = 16; // 4x4 grid
+    const moleEmoji = "🐹";
+    const gameDuration = 30; // seconds
+    const moleInterval = 800; // ms
+    let score = 0;
+    let timer = gameDuration;
+    let moleIndex = -1;
+    let gameActive = false;
+    let moleTimerId = null;
+    let countdownTimerId = null;
+    let highScores = [];
+
+    // --- DOM Elements ---
+    const grid = document.getElementById('grid');
+    const scoreSpan = document.getElementById('score');
+    const timerSpan = document.getElementById('timer');
+    const startBtn = document.getElementById('start-btn');
+    const highScoreList = document.getElementById('high-score-list');
+    const nameInputContainer = document.getElementById('name-input-container');
+    const nameInput = document.getElementById('name-input');
+    const submitNameBtn = document.getElementById('submit-name-btn');
+
+    // --- Initialize Grid ---
+    function createGrid() {
+      grid.innerHTML = '';
+      for (let i = 0; i < gridSize; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', () => whackMole(i));
+        grid.appendChild(cell);
+      }
+    }
+
+    // --- Mole Logic ---
+    function showRandomMole() {
+      clearMole();
+      moleIndex = Math.floor(Math.random() * gridSize);
+      const cells = grid.children;
+      cells[moleIndex].classList.add('active');
+      cells[moleIndex].textContent = moleEmoji;
+    }
+
+    function clearMole() {
+      const cells = grid.children;
+      for (let cell of cells) {
+        cell.classList.remove('active');
+        cell.textContent = '';
+      }
+      moleIndex = -1;
+    }
+
+    function whackMole(index) {
+      if (!gameActive) return;
+      if (index === moleIndex) {
+        score++;
+        scoreSpan.textContent = score;
+        clearMole();
+      }
+    }
+
+    // --- Game Timer ---
+    function startCountdown() {
+      timerSpan.textContent = timer;
+      countdownTimerId = setInterval(() => {
+        timer--;
+        timerSpan.textContent = timer;
+        if (timer <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    // --- Game Control ---
+    function startGame() {
+      score = 0;
+      timer = gameDuration;
+      scoreSpan.textContent = score;
+      timerSpan.textContent = timer;
+      gameActive = true;
+      startBtn.disabled = true;
+      nameInputContainer.style.display = 'none';
+      createGrid();
+      showRandomMole();
+      moleTimerId = setInterval(showRandomMole, moleInterval);
+      startCountdown();
+    }
+
+    function endGame() {
+      gameActive = false;
+      clearInterval(moleTimerId);
+      clearInterval(countdownTimerId);
+      clearMole();
+      startBtn.disabled = false;
+      checkHighScore();
+    }
+
+    // --- High Score Logic ---
+    function loadHighScores() {
+      const saved = localStorage.getItem('whackamole_highscores');
+      highScores = saved ? JSON.parse(saved) : [];
+      renderHighScores();
+    }
+
+    function saveHighScores() {
+      localStorage.setItem('whackamole_highscores', JSON.stringify(highScores));
+    }
+
+    function renderHighScores() {
+      highScoreList.innerHTML = '';
+      highScores.slice(0, 5).forEach(({name, score}) => {
+        const li = document.createElement('li');
+        li.textContent = `${name} - ${score}`;
+        highScoreList.appendChild(li);
+      });
+      if (highScores.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = "No high scores yet!";
+        highScoreList.appendChild(li);
+      }
+    }
+
+    function checkHighScore() {
+      // Is this score in the top 5?
+      if (
+        score > 0 &&
+        (highScores.length < 5 || score > highScores[highScores.length - 1].score)
+      ) {
+        nameInputContainer.style.display = 'block';
+        nameInput.value = '';
+        nameInput.focus();
+      }
+    }
+
+    function submitHighScore() {
+      const name = nameInput.value.trim() || "Anonymous";
+      highScores.push({ name, score });
+      // Sort descending and keep top 5
+      highScores.sort((a, b) => b.score - a.score);
+      highScores = highScores.slice(0, 5);
+      saveHighScores();
+      renderHighScores();
+      nameInputContainer.style.display = 'none';
+    }
+
+    // --- Event Listeners ---
+    startBtn.addEventListener('click', startGame);
+    submitNameBtn.addEventListener('click', submitHighScore);
+    nameInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitHighScore();
+    });
+
+    // --- Initial Setup ---
+    createGrid();
+    loadHighScores();
+  </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background: #222;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      width: 320px;
+    }
+    .display {
+      background: #111;
+      color: #fff;
+      font-size: 2em;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      text-align: right;
+      min-height: 40px;
+      letter-spacing: 1px;
+      overflow-x: auto;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 18px 0;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 6px;
+      background: #333;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button.operator {
+      background: #ff9500;
+      color: #fff;
+    }
+    button.memory {
+      background: #4b6cb7;
+      color: #fff;
+    }
+    button:active {
+      background: #555;
+    }
+    button.operator:active {
+      background: #e08a00;
+    }
+    button.memory:active {
+      background: #395591;
+    }
+    .span-2 {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="memory" id="mc">MC</button>
+      <button class="memory" id="mr">MR</button>
+      <button class="memory" id="mplus">M+</button>
+      <button class="memory" id="mminus">M-</button>
+
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">/</button>
+
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button class="operator">*</button>
+
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button class="operator">-</button>
+
+      <button>0</button>
+      <button>.</button>
+      <button class="span-2 operator">+</button>
+
+      <button class="span-2" id="clear">C</button>
+      <button class="span-2" id="equals">=</button>
+    </div>
+  </div>
+  <script>
+    const display = document.getElementById('display');
+    let current = '0';
+    let operator = null;
+    let operand = null;
+    let memory = 0;
+    let resetNext = false;
+
+    function updateDisplay() {
+      display.textContent = current;
+    }
+
+    function inputNumber(num) {
+      if (resetNext) {
+        current = num;
+        resetNext = false;
+      } else {
+        if (current === '0') {
+          current = num;
+        } else {
+          current += num;
+        }
+      }
+      updateDisplay();
+    }
+
+    function inputDot() {
+      if (resetNext) {
+        current = '0.';
+        resetNext = false;
+      } else if (!current.includes('.')) {
+        current += '.';
+      }
+      updateDisplay();
+    }
+
+    function clearAll() {
+      current = '0';
+      operator = null;
+      operand = null;
+      resetNext = false;
+      updateDisplay();
+    }
+
+    function setOperator(op) {
+      if (operator && !resetNext) {
+        calculate();
+      }
+      operand = parseFloat(current);
+      operator = op;
+      resetNext = true;
+    }
+
+    function calculate() {
+      if (operator && operand !== null) {
+        let result;
+        const curr = parseFloat(current);
+        switch (operator) {
+          case '+': result = operand + curr; break;
+          case '-': result = operand - curr; break;
+          case '*': result = operand * curr; break;
+          case '/': result = curr === 0 ? 'Error' : operand / curr; break;
+        }
+        current = (result === 'Error') ? 'Error' : String(result);
+        operator = null;
+        operand = null;
+        resetNext = true;
+        updateDisplay();
+      }
+    }
+
+    function memoryAdd() {
+      if (!isNaN(parseFloat(current))) {
+        memory += parseFloat(current);
+      }
+    }
+
+    function memorySubtract() {
+      if (!isNaN(parseFloat(current))) {
+        memory -= parseFloat(current);
+      }
+    }
+
+    function memoryRecall() {
+      current = String(memory);
+      updateDisplay();
+      resetNext = true;
+    }
+
+    function memoryClear() {
+      memory = 0;
+    }
+
+    document.querySelectorAll('.buttons button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const val = this.textContent;
+        if (this.classList.contains('operator')) {
+          if (val === '+') setOperator('+');
+          else if (val === '-') setOperator('-');
+          else if (val === '*') setOperator('*');
+          else if (val === '/') setOperator('/');
+        } else if (this.classList.contains('memory')) {
+          if (this.id === 'mplus') memoryAdd();
+          else if (this.id === 'mminus') memorySubtract();
+          else if (this.id === 'mr') memoryRecall();
+          else if (this.id === 'mc') memoryClear();
+        } else if (this.id === 'clear') {
+          clearAll();
+        } else if (this.id === 'equals') {
+          calculate();
+        } else if (val === '.') {
+          inputDot();
+        } else if (!isNaN(val)) {
+          inputNumber(val);
+        }
+      });
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>
