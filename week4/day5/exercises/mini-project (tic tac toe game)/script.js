@@ -38,6 +38,7 @@ difficultyInputs.forEach((input) => {
 // =======================
 //       game play
 // =======================
+
 let game = [, , , , , , , , ,];
 let isGamePlaying = true;
 const resultDisplay = document.querySelector(".result .result-text");
@@ -77,7 +78,25 @@ function computerTurn() {
             }
         }
     } else {
-        // TODO: hard mode
+        let bestScore = -Infinity;
+        let move = -1;
+        for (let i = 0; i < game.length; i++) {
+            if (game[i] === undefined) {
+                game[i] = computerSymbol;
+                let score = minimax(game, 0, false);
+                game[i] = undefined;
+                if (score > bestScore) {
+                    bestScore = score;
+                    move = i;
+                }
+            }
+        }
+        if (move !== -1) {
+            currentPlayer = "computer";
+            game[move] = computerSymbol;
+            gameBoardCells[move].textContent = computerSymbol;
+            checkResult();
+        }
     }
 }
 
@@ -141,4 +160,50 @@ function resetGame() {
     symbolChoiceButtons.forEach((btn) => {
         btn.classList.remove("active");
     });
+}
+
+function minimax(gameState, depth, isMaximizing) {
+    // Check for terminal states
+    const winner = getWinner(gameState);
+    if (winner === computerSymbol) return 1;
+    if (winner === playerSymbol) return -1;
+    if (gameState.every((cell) => cell === "x" || cell === "o")) return 0;
+
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < gameState.length; i++) {
+            if (gameState[i] === undefined) {
+                gameState[i] = computerSymbol;
+                let score = minimax(gameState, depth + 1, false);
+                gameState[i] = undefined;
+                bestScore = Math.max(score, bestScore);
+            }
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < gameState.length; i++) {
+            if (gameState[i] === undefined) {
+                gameState[i] = playerSymbol;
+                let score = minimax(gameState, depth + 1, true);
+                gameState[i] = undefined;
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+}
+
+function getWinner(gameState) {
+    for (const combo of winCombos) {
+        const [a, b, c] = combo;
+        if (
+            gameState[a] &&
+            gameState[a] === gameState[b] &&
+            gameState[a] === gameState[c]
+        ) {
+            return gameState[a];
+        }
+    }
+    return null;
 }
