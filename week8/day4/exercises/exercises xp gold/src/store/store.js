@@ -5,12 +5,6 @@ export const store = configureStore({
     reducer: {
         todos: todoReducer,
     },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: ["persist/PERSIST"],
-            },
-        }),
 });
 
 export default store;
